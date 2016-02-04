@@ -1,6 +1,11 @@
-# gantry
+# Gantry
 
-FIXME: description
+Work-in-progress/Proof-of-concept container load balancer/autoscaler.
+
+Aims to accept requests for multiple containers and distribute them to their
+respective containers running on a docker swarm. Scaling the amount of
+containers as necessary.
+
 
 ## Installation
 

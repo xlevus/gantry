@@ -12,14 +12,14 @@
     (println "Listening...")
 
     (while (not (.. Thread currentThread isInterrupted))
-      (let [request (zmq/receive-str receiver)]
+      (let [request-str (zmq/receive-str receiver)
+            request (edn/read-string request-str)]
 
-
-        (spy :debug (zmq/send-str sender (pr-str {:id (:id request)
+        (spy :debug request-str)
+        (zmq/send-str sender (pr-str {:id (:id request)
                                       :response {:status 200
                                                  :content-type "text/plain"
-                                                 :body "Hello, world"}})))
-        (debug "Request: " request)
+                                                 :body "Hello, world"}}))
         ))))
 
 

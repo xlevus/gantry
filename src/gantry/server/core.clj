@@ -18,7 +18,7 @@
       (let [req-id (channels/new-request channel)]
         (debug "ID:" req-id)
         (>!! channels/incoming-requests {:id req-id
-                                         :request ring-request}))))
+                                         :request (dissoc ring-request :async-channel)}))))
 
 
 (defn stop-server []
@@ -32,7 +32,7 @@
   [port]
   (reset! server (httpkit/run-server app {:port port}))
 
-  (zmq/pull-requests channels/incoming-requests)
+  (zmq/start)
 
   (info "Gantry running on port" port))
 

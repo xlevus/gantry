@@ -34,9 +34,11 @@
                                     (zmq/bind "tcp://*:5554"))]
 
           (while (not (.. Thread currentThread isInterrupted))
-            (let [response (edn/read (zmq/receive-str response-socket))]
-              (spy :debug response)
-              (channels/new-response (:id response) (:response response)))))))
+            (let [response-str (zmq/receive-str response-socket)
+                  response (edn/read-string response-str)]
+              (spy :debug response-str)
+              (channels/new-response (:id response) (:response response))
+              )))))
 
   (defn start []
      (pull-requests channels/incoming-requests)
